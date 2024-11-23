@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,12 +9,17 @@ public class PlayerInteract : MonoBehaviour
 {
     [Header("대화 시스템")]
     public GameObject DialogueBackGround;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI nameText; //NPC 이름
+    public TextMeshProUGUI dialogueText; //NPC 다이얼로그 출력
     public GameObject dialogueObject;
     [Space]
     public bool hasExistNPC = false;
-    public NPCText currentNPC;
+    public NPCText currentNPC; //NPC이름을 찾아 적용
+    public float typespeed; //글자가 출력되는 속도
+
+    private Queue<string> lines = new Queue<string>();
+    private string currentText;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -21,8 +27,6 @@ public class PlayerInteract : MonoBehaviour
         //nameText 텍스트를 받아와서 실행해주는 컴포넌트 - 게임 창에 아래 항목을 찾아와라
         nameText = GameObject.Find("Canvas/Dialogue Text Background/NPC Name").GetComponent<TextMeshProUGUI>();
         dialogueText = GameObject.Find("Canvas/Dialogue Text Background/Dialouge_Text").GetComponent<TextMeshProUGUI>();
-        // 활성화되어 있는 채팅화면을 꺼라
-        dialogueObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,23 +46,33 @@ public class PlayerInteract : MonoBehaviour
 
     private void EnableDialogue()
     {
-        //대화창이 비활성화 되어있는 상태에서 활성화 상태로 바꿈
-        if (DialogueBackGround.activeInHierarchy)
+        animator.Play("Show");
+        TypeText();
+    }
+
+    public void GetDialougeByNPC(NPCText npc)
+    {
+        foreach (var line in npc.dialogues)
         {
-            DialogueBackGround.SetActive(false);
-        }
-        else
-        {
-            TypeText();
+            lines.Enqueue(line);
         }
     }
 
     private void TypeText()
     {
+        if(lines.Count == 0)
+        {
+            EndDialouge();
+            return;
+        }
+
         DialogueBackGround.SetActive(true);
         // npc의 정보를 화면에 출력
         nameText.text = currentNPC.npcName;
-        dialogueText.text = currentNPC.dialogues[0];
+        currentText = lines.Dequeue();
+        
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(currentText));
 
         // n초 후에 1번을 출력하시오.
 
@@ -67,8 +81,26 @@ public class PlayerInteract : MonoBehaviour
         //계속하기 버튼을 클릭해서 출력
     }
 
+    IEnumerator TypeSentence(string currentLine)
+    {
+        //글자마다 출력되는 시간
+        dialogueText.text = ("");
+        foreach(char letter in currentLine)
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(typespeed);
+        }
+    }
+
+    private void EndDialouge()
+    {
+        lines.Clear();
+        animator.Play("Hide");
+    }
+
     public void CloseText()
     {
-        DialogueBackGround.SetActive(false);
+        lines.Clear();
+        animator.Play("Hide");
     }
 }

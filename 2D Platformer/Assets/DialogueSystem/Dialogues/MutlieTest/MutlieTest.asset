@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caaa76378291a144d849f29230be0a5a, type: 3}
+  m_Name: MutlieTest
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: MutlieTest
+  <DialogueGroups>k__BackingField:
+    list: []
+  <UngroupedDialogues>k__BackingField:
+  - {fileID: 11400000, guid: b6ba410f15688f541b7b9c3effd29189, type: 2}
+  - {fileID: 11400000, guid: 0d1b46475bae34a4997f0db99b5a09c5, type: 2}
+  - {fileID: 11400000, guid: b919f2d4112d91b44b8665239d79d273, type: 2}
+  - {fileID: 11400000, guid: 4c8ed0d063f9bbb47882e521e4638cd6, type: 2}
+  - {fileID: 11400000, guid: 94ef8c057c2750d4a90fa79814c25a57, type: 2}
+  - {fileID: 11400000, guid: a68bfdf1aaa6329458f32741738b9139, type: 2}
+  - {fileID: 11400000, guid: 21eb7e9f80b67c94abb0481e479bdc92, type: 2}
